@@ -25,7 +25,7 @@ nnoremap <Leader>vf          :VGrepF<space>
 nnoremap <Leader>vc          :VGrepC<cr>
 
 " git grep ':!git grep --line-number' to quickfix
-function GGrepQf(search, ...)
+function! GGrepQf(search, ...)
 	let gitgrep_cmd = 'git grep --line-number --column '
 	let gitgrep_cmd .= shellescape(a:search)
 	let gitgrep_cmd .= ' -- '
