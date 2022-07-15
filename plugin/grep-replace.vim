@@ -51,4 +51,30 @@ command! -nargs=0 GGrepQfC
 nnoremap <Leader>gg          :GGrepQf<space>
 nnoremap <Leader>gc          :GGrepQfC<cr>
 
-" TODO: Add replace functions, commands & keymaps
+" Replace functions, commands & keymaps
+function! VReplace(search, replace, ...) range
+	exe 'silent vimgrep! '.a:search.' '.join(a:000)
+	silent! exe ':cfdo %s/'.a:search.'/'.a:replace.'/'.'g'
+	update
+endfunction
+
+function! VReplaceF(search, replace)
+	call VReplace(a:search, a:replace, expand('%'))
+endfunction
+
+function! VReplaceC(replace)
+	call VReplaceF(expand('<cword>'), a:replace)
+endfunction
+
+command! -nargs=+ VReplace
+			\ call VReplace(<f-args>)
+
+command! -nargs=+ VReplaceF
+			\ call VReplaceF(<f-args>)
+
+command! -nargs=1 VReplaceC
+			\ call VReplaceC(<q-args>)
+
+nnoremap <Leader>vrr         :VReplace<space>
+nnoremap <Leader>vrf         :VReplaceF<space>
+nnoremap <Leader>vrc         :VReplaceC<space>
